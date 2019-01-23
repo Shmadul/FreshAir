@@ -35,7 +35,7 @@ void uninstall()
     		} 
     	else
     		{ 
-        	perror("Error"); 
+        	perror("Error\n"); 
     		} 
    	}
 
@@ -49,15 +49,15 @@ void install()
     		} 
     	else
     		{ 
-        	perror("Error"); 
+        	perror("Error\n"); 
     		} 
    	}
 
 // Menu
    	printf("@shmadul's BOTW Mod Loader\n");
    	printf("Alpha v2.0\n");
-   	printf("Press A to Install");
-   	printf("Press B to Uninstall");
+   	printf("Press A to Install\n");
+   	printf("Press B to Uninstall\n");
 
     // Main loop
         while (appletMainLoop())
