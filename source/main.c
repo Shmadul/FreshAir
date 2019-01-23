@@ -11,19 +11,24 @@ struct stat sb;
 int main(int argc, char* argv[])
 {
     consoleInit(NULL);
-
+// Static Variables    
     const char* os = "reinx"; 
-	char old[60];
-	char new[60];
-	sprintf(old, "/%s/titles/01007EF00011E000/zelda/", os);
-	sprintf(new, "/%s/titles/01007EF00011E000/romfs/", os);
-	//const char* path = "/reinx/titles/01007EF00011E000/romfs/"; 
+    const char* name = "zelda"; 
+    const char* titleid = "01007EF00011E000";
+// Variables
+	char base[60];
+	char mod[60];
+	char installed[60];
+// Path Stuff
+	sprintf(base, "/%s/titles/%s/", os, titleid);
+	sprintf(mod, "%s/%s/", base, name);
+	sprintf(installed, "/%s/titles/%s/romfs/", os, titleid);
 
-//Functions
+// Functions
 void uninstall() 
 	{
     	int rmstats;
-		rmstats = rename(new, old);
+		rmstats = rename(installed, mod);
 		if(!rmstats) 
     		{ 
 		    	printf("%s", "Uninstalled\n"); 
@@ -37,7 +42,7 @@ void uninstall()
 void install() 
 	{
     	int rmstats;
-		rmstats = rename(old, new);
+		rmstats = rename(mod, installed);
 		if(!rmstats) 
     		{ 
 		    	printf("%s", "Installed\n"); 
@@ -47,6 +52,12 @@ void install()
         	perror("Error"); 
     		} 
    	}
+
+// Menu
+   	printf("@shmadul's BOTW Mod Loader\n");
+   	printf("Alpha v2.0\n");
+   	printf("Press A to Install");
+   	printf("Press B to Uninstall");
 
     // Main loop
         while (appletMainLoop())
@@ -60,24 +71,20 @@ void install()
         
         //D-Pad Up
         if (kDown & KEY_UP) {
-           // selectSaveFromList(selection, -1, saveInfoList, info, printName);
-            printf("Registered Up\n");
         }
 
         //D-Pad Down
         if (kDown & KEY_DOWN) {
-           // selectSaveFromList(selection, 1, saveInfoList, info, printName);
-            printf("Registered Down\n");
         }
 
         //A Button
         if (kDown & KEY_A) {
-        	printf("Installing\n");
+        	printf("Installing, %s Mod \n", name);
         	install();
         }
             
         if (kDown & KEY_B) {
-        	printf("Uninstalling\n");
+        	printf("Uninstalling, %s Mod \n", name);
         	uninstall();
         }
 
