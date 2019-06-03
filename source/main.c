@@ -6,15 +6,40 @@
 
 struct stat sb;
 
+// Functions
+void uninstall() 
+{
+	int rmstats;
+	rmstats = rename(installed, mod);
+	if(!rmstats) 
+	{ 
+		printf("%s", "Uninstalled\n"); 
+	} else { 
+		perror("Error\n"); 
+	} 
+}
+
+void install() 
+{
+	int rmstats;
+	rmstats = rename(mod, installed);
+	if(!rmstats) 
+	{ 
+		printf("%s", "Installed\n"); 
+	} else { 
+		perror("Error\n"); 
+	} 
+}
+
 // Main program entrypoint
 
 int main(int argc, char* argv[])
 {
-    consoleInit(NULL);
+	consoleInit(NULL);
 // Static Variables    
-    const char* os = "reinx"; 
-    const char* name = "zelda"; 
-    const char* titleid = "01007EF00011E000";
+	const char* os = "reinx"; 
+	const char* name = "zelda"; 
+	const char* titleid = "01007EF00011E000";
 // Variables
 	char base[60];
 	char mod[60];
@@ -24,84 +49,56 @@ int main(int argc, char* argv[])
 	sprintf(mod, "%s/%s/", base, name);
 	sprintf(installed, "/%s/titles/%s/romfs/", os, titleid);
 
-// Functions
-void uninstall() 
-	{
-    	int rmstats;
-		rmstats = rename(installed, mod);
-		if(!rmstats) 
-    		{ 
-		    	printf("%s", "Uninstalled\n"); 
-    		} 
-    	else
-    		{ 
-        	perror("Error\n"); 
-    		} 
-   	}
-
-void install() 
-	{
-    	int rmstats;
-		rmstats = rename(mod, installed);
-		if(!rmstats) 
-    		{ 
-		    	printf("%s", "Installed\n"); 
-    		} 
-    	else
-    		{ 
-        	perror("Error\n"); 
-    		} 
-   	}
-
 // Menu
    	printf("@shmadul's BOTW Mod Loader\n");
    	printf("Alpha v2.0\n");
    	printf("Press A to Install\n");
    	printf("Press B to Uninstall\n");
 
-    // Main loop
-        while (appletMainLoop())
-    {
-        // Scan all the inputs. This should be done once for each frame
-        hidScanInput();
+// Main loop
+	while (appletMainLoop())
+	{
+		// Scan all the inputs. This should be done once for each frame
+		hidScanInput();
 
-        // hidKeysDown returns information about which buttons have been
-        // just pressed in this frame compared to the previous one
-        u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
-        
-        //D-Pad Up
-        if (kDown & KEY_UP) {
-        }
+		// hidKeysDown returns information about which buttons have been
+		// just pressed in this frame compared to the previous one
+		u64 kDown = hidKeysDown(CONTROLLER_P1_AUTO);
 
-        //D-Pad Down
-        if (kDown & KEY_DOWN) {
-        }
+		//D-Pad Up
+		if (kDown & KEY_UP) {}
 
-        //A Button
-        if (kDown & KEY_A) {
-        	printf("Installing, %s Mod \n", name);
-        	install();
-        }
-            
-        if (kDown & KEY_B) {
-        	printf("Uninstalling, %s Mod \n", name);
-        	uninstall();
-        }
+		//D-Pad Down
+		if (kDown & KEY_DOWN) {}
 
-        if (kDown & KEY_X) {
-        }
+		//A Button
+		if (kDown & KEY_A)
+		{
+			printf("Installing, %s Mod \n", name);
+			install();
+		}
 
-        //PlusButtonW
-        if (kDown & KEY_PLUS)
-            break; // break in order to return to hbmenu
+		//B Button
+		if (kDown & KEY_B)
+		{
+			printf("Uninstalling, %s Mod \n", name);
+			uninstall();
+		}
 
-        // Your code goes here
+		//X Button
+		if (kDown & KEY_X) {}
 
-        // Update the console, sending a new frame to the display
-        consoleUpdate(NULL);
-    }
+		//PlusButtonW
+		if (kDown & KEY_PLUS)
+		{
+			// break in order to return to hbmenu
+			break;
+		}
+		// Update the console, sending a new frame to the display
+		consoleUpdate(NULL);
+	}
 
-    // Deinitialize and clean up resources used by the console (important!)
-    consoleExit(NULL);
-    return 0;
+	// Deinitialize and clean up resources used by the console (important!)
+	consoleExit(NULL);
+	return 0;
 }
